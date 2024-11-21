@@ -14,28 +14,15 @@ from aiogram.types import ParseMode
 #         await db_main.sql_create()
 
 
-
-
-# Добавление пользователя в таблицу
-def add_user_to_sheet(user_id, username, code):
-    sheet.append_row([user_id, username, code])
-
 # Обработчик команды /start
 async def start_command(message: types.Message):
     user_id = message.from_user.id
     username = message.from_user.username or "No Username"
 
-    # Проверяем наличие пользователя в таблице
-    existing_code = check_user_in_sheet(user_id)
-    if existing_code:
-        await message.answer(f"Ваш уникальный код уже существует: {existing_code}")
-        return
+start.register_handlers_start(dp)
+help.register_handlers_help(dp)
 
-    # Генерируем новый код и добавляем в таблицу
-async def generate_code(message: types.Message):
-    code = generate_code()
-    add_user_to_sheet(user_id, username, code)
-    await message.answer(f"Ваш код: {code}")
+
 
 
 # Основная функция запуска
@@ -46,6 +33,6 @@ if __name__ == '__main__':
 
 # echo.register_echo(dp)
 
-# if __name__ == '__main__':
-#     logging.basicConfig(level=logging.INFO)
-#     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
